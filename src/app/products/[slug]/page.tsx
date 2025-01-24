@@ -2,14 +2,11 @@ import { fetchProductBySlug } from '../../../sanity/lib/utils';
 import { TypeProduct } from '../../../sanity/lib/types';
 import Image from 'next/image';
 
-// Define the type for the component's props
-interface ProductPageProps {
-  params: {
-    slug: string;
-  };
-}
-
-export default async function ProductPage({ params }: ProductPageProps) {
+export default async function ProductPage({
+  params,
+}: {
+  params: { slug: string };
+}) {
   console.log('Received slug:', params.slug); // Log the received slug for debugging
 
   // Fetch product data using the slug
@@ -47,12 +44,17 @@ export default async function ProductPage({ params }: ProductPageProps) {
         {/* Handle product colors */}
         {product.colors && product.colors.length > 0 ? (
           product.colors.map((color) => (
-            <span key={color} className="px-3 py-1 bg-gray-200 text-gray-700 rounded-md">
+            <span
+              key={color}
+              className="px-3 py-1 bg-gray-200 text-gray-700 rounded-md"
+            >
               {color}
             </span>
           ))
         ) : (
-          <span className="px-3 py-1 bg-gray-200 text-gray-700 rounded-md">No colors available</span>
+          <span className="px-3 py-1 bg-gray-200 text-gray-700 rounded-md">
+            No colors available
+          </span>
         )}
       </div>
     </div>
