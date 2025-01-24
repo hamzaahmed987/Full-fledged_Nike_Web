@@ -2,11 +2,18 @@ import { fetchProductBySlug } from '../../../sanity/lib/utils';
 import { TypeProduct } from '../../../sanity/lib/types';
 import Image from 'next/image';
 
-export default async function ProductPage({ params }: { params: { slug: string } }) {
-  console.log('Received slug:', params.slug); // Log the received slug
+// Define the type for the component's props
+interface ProductPageProps {
+  params: {
+    slug: string;
+  };
+}
+
+export default async function ProductPage({ params }: ProductPageProps) {
+  console.log('Received slug:', params.slug); // Log the received slug for debugging
 
   // Fetch product data using the slug
-  const product = await fetchProductBySlug(params.slug);
+  const product: TypeProduct | null = await fetchProductBySlug(params.slug);
 
   if (!product) {
     return (
@@ -20,14 +27,14 @@ export default async function ProductPage({ params }: { params: { slug: string }
   return (
     <div className="max-w-4xl mx-auto py-10 px-4">
       <h1 className="text-3xl font-bold">{product.productName}</h1>
-      
+
       {/* Ensure the image width is correct */}
       <Image
         src={product.imageUrl}
         alt={product.productName}
-        height={"20"}
-        width={"300"}
-        className="mx-auto object-cover mb-4 rounded-lg"  // Changed to w-full for full width
+        height={300}
+        width={300}
+        className="mx-auto object-cover mb-4 rounded-lg"
       />
 
       <p className="text-gray-700">{product.description}</p>
@@ -35,11 +42,11 @@ export default async function ProductPage({ params }: { params: { slug: string }
       <p className="text-gray-600">Category: {product.category}</p>
       <p className="text-gray-600">In Stock: {product.inventory}</p>
       <p className="text-gray-600">Status: {product.status}</p>
-      
+
       <div className="flex gap-2 mt-4">
         {/* Handle product colors */}
-        {product.colors.length > 0 ? (
-          product.colors.map((color: string) => (
+        {product.colors && product.colors.length > 0 ? (
+          product.colors.map((color) => (
             <span key={color} className="px-3 py-1 bg-gray-200 text-gray-700 rounded-md">
               {color}
             </span>
