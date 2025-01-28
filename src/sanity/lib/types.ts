@@ -1,7 +1,7 @@
 export interface TypeProduct {
-  _id: string;  // Changed 'id' to '_id' to match Sanity's structure
+  _id: any;  
   productName: string;
-  slug: { current: string };
+  slug: { current: any };
   description: string;
   price: number;
   category: string;
